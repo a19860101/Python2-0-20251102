@@ -1,3 +1,6 @@
+import sys
+import time
+
 import requests
 import bs4
 
@@ -11,8 +14,9 @@ def get_jpy_rate():
         rows = htmlfile.select('tbody tr')
 
         for row in rows:
-            if 'JPY' in row.find('div', class_='visible-phone').text:
+            if 'JPY123' in row.find('div', class_='visible-phone').text:
                 jpy_rate = row.select('.rate-content-cash')[1].text
+                time.sleep(2)
                 return jpy_rate
 
         print('找不到日圓匯率，請檢查來源網站')
@@ -23,8 +27,17 @@ def get_jpy_rate():
         return None
 
 
+def main():
+    # 取得日幣匯率
+    print('正在取得匯率...')
+    jpy_rate = get_jpy_rate()
+    if not jpy_rate:
+        manual = input('無法取得匯率，請手動輸入匯率或按Enter結束程式')
+        if manual:
+            jpy_rate = manual
+        else:
+            sys.exit()
+    print(f'目前日幣匯率為{jpy_rate}')
 
-
-
-
-
+if __name__ == '__main__':
+    main()
