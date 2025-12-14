@@ -17,7 +17,7 @@ def get_jpy_rate():
             if 'JPY' in row.find('div', class_='visible-phone').text:
                 jpy_rate = row.select('.rate-content-cash')[1].text
                 time.sleep(2)
-                return jpy_rate
+                return float(jpy_rate)
 
         print('找不到日圓匯率，請檢查來源網站')
         return None
@@ -32,7 +32,7 @@ def main():
     print('正在取得匯率...')
     jpy_rate = get_jpy_rate()
     if not jpy_rate:
-        manual = input('無法取得匯率，請手動輸入匯率或按 Enter 結束程式')
+        manual = float(input('無法取得匯率，請手動輸入匯率或按 Enter 結束程式'))
         if manual:
             jpy_rate = manual
         else:
@@ -58,9 +58,21 @@ def main():
         price_no_tax = price
         price_in_tax = price * (1 + tax_rate)
 
-    print(f'含稅：{price_in_tax}')
-    print(f'未稅：{price_no_tax}')
+    # print(f'含稅：{price_in_tax}')
+    # print(f'未稅：{price_no_tax}')
 
+    diff_jpy = round(price_in_tax - price_no_tax)
+
+    twd_in_tax = round(price_in_tax * jpy_rate)
+    twd_no_tax = round(price_no_tax * jpy_rate)
+    # diff_twd = twd_in_tax - twd_no_tax
+    diff_twd = round(diff_jpy * jpy_rate)
+    print(f'日幣含稅：{price_in_tax}')
+    print(f'日幣未稅：{price_no_tax:.0f}')
+    print(f'日幣價差：{diff_jpy}')
+    print(f'台幣含稅：{twd_in_tax}')
+    print(f'台幣未稅：{twd_no_tax}')
+    print(f'台幣價差：{diff_twd}')
 
 if __name__ == '__main__':
     main()
