@@ -50,6 +50,9 @@ def main():
     # 轉換匯率，如 10% -> 0.1、8% -> 0.08
     tax_rate = tax_rate_input / 100
 
+    # 代購匯率
+    custom_rate = float(input('請輸入代購匯率：'))
+
     # 3. 計算邏輯
     if is_tax:
         price_in_tax = price
@@ -73,6 +76,22 @@ def main():
     print(f'台幣含稅：{twd_in_tax}')
     print(f'台幣未稅：{twd_no_tax}')
     print(f'台幣價差：{diff_twd}')
+
+    # 未稅成本(日幣) price_no_tax
+    # 含稅成本(日幣) price_in_tax
+
+
+    # 售價(台幣)
+    product_price = round(price_in_tax * custom_rate)
+
+    # 含稅購買到商品的利潤(台幣)
+    profit_in_tax = product_price - twd_in_tax
+    # 未稅購買到商品的利潤(台幣)
+    profit_no_tax = product_price - twd_no_tax
+
+    print(f'商品價格：{product_price}')
+    print(f'含稅購買到的商品利潤：{profit_in_tax}')
+    print(f'未稅購買到的商品利潤：{profit_no_tax}')
 
 if __name__ == '__main__':
     main()
