@@ -2,6 +2,7 @@ import sqlite3
 conn = sqlite3.connect('test.db')
 cursor = conn.cursor()
 
+# 查詢資料
 sql_select = 'SELECT * FROM users'
 # sql_select = 'SELECT name FROM users'
 # sql_select = 'SELECT name,phone FROM users'
