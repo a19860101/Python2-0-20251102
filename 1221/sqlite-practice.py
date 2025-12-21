@@ -61,13 +61,12 @@ def search_users():
             break
         cursor.execute(sql_search, [f'%{query}%', f'%{query}%', f'%{query}%'])
 
-        print(cursor.rowcount)
-        # if cursor.rowcount > 0:
-        #     datas = cursor.fetchall()
-        #     for data in datas:
-        #         print(data)
-        # else:
-        #     print('找不到啦')
+        datas = cursor.fetchall()
+        if len(datas) > 0:
+            for data in datas:
+                print(data)
+        else:
+            print('找不到啦')
 
 def main():
     check_create_table()
@@ -80,7 +79,7 @@ def main():
         print('4. 關鍵字搜尋')
         print('q. 結束程式')
         print('=' * 60)
-        choice = input('請輸入項目（1,2,3,q）：')
+        choice = input('請輸入項目（1,2,3,4,q）：')
 
         if choice == '1':
             get_all_users()
