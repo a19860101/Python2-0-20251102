@@ -18,6 +18,7 @@ def check_create_table():
 def create_user():
     sql = 'INSERT INTO users(name, phone, email)VALUES(?,?,?)'
     while True:
+        print('新增會員（在姓名輸入q以退回主選單）')
         name = input('請輸入姓名：')
         if name == 'q':
             break
@@ -27,6 +28,7 @@ def create_user():
         data = [name, phone, email]
         cursor.execute(sql, data)
         conn.commit()
+        print('-'*60)
 
 def get_all_users():
     sql = 'SELECT * FROM users'
@@ -54,7 +56,9 @@ def main():
         else:
             print('無效輸入，請重新選擇')
 
-    print('滾')
+    print('='*60)
+    print('滾，程式結束')
+    print('='*60)
 
 if __name__ == '__main__':
     main()
