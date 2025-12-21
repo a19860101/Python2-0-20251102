@@ -28,11 +28,19 @@ cursor.execute(sql_create_table)
 
 # 新增欄位
 sql_add_col = 'ALTER TABLE users ADD COLUMN address TEXT'
-cursor.execute(sql_add_col)
+# cursor.execute(sql_add_col)
 
 # 移除欄位
 sql_drop_col = 'ALTER TABLE users DROP COLUMN address'
-cursor.execute(sql_drop_col)
+# cursor.execute(sql_drop_col)
+
+# 修改欄位
+sql_rename_col = 'ALTER TABLE users RENAME account TO name'
+# cursor.execute(sql_rename_col)
+
+# 修改資料表名稱
+sql_rename_table = 'ALTER TABLE students RENAME TO users'
+# cursor.execute(sql_rename_table)
 
 conn.close()
 
