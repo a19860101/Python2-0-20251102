@@ -11,7 +11,11 @@ cursor = conn.cursor()
 sql_select = 'SELECT * FROM users WHERE name = ? OR phone = ?'
 
 
-datas = cursor.execute(sql_select,['123','123123123'])
+# datas = cursor.execute(sql_select,['123','123123123'])
+
+sql_search = 'SELECT * FROM users WHERE name LIKE ? OR phone LIKE ?'
+s = 'gmail'
+datas = cursor.execute(sql_search, [f'%{s}%'])
 
 for data in datas:
     print(data)
