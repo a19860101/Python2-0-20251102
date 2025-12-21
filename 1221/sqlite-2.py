@@ -8,7 +8,17 @@ cursor = conn.cursor()
 # cursor.execute(sql_insert)
 
 sql_insert = 'INSERT INTO users(name, phone, email)VALUES(?,?,?)'
-cursor.execute(sql_insert,['mary', '0987545545', 'asdfasdfsadf@gmail.com'])
+data = ['mary', '0987545545', 'asdfasdfsadf@gmail.com']
+cursor.execute(sql_insert,data)
+
+# datas = [
+#     ('mary2', '0987654321', 'asdf2@gmail.com'),
+#     ('mary3', '0987654321', 'asdf2@gmail.com'),
+#     ('mary4', '0987654321', 'asdf2@gmail.com'),
+#     ('mary5', '0987654321', 'asdf2@gmail.com'),
+# ]
+# cursor.executemany(sql_insert,datas)
+
 
 conn.commit()
 conn.close()
