@@ -26,6 +26,14 @@ CREATE TABLE IF NOT EXISTS users(
 
 cursor.execute(sql_create_table)
 
+# 新增欄位
+sql_add_col = 'ALTER TABLE users ADD COLUMN address TEXT'
+cursor.execute(sql_add_col)
+
+# 移除欄位
+sql_drop_col = 'ALTER TABLE users DROP COLUMN address'
+cursor.execute(sql_drop_col)
+
 conn.close()
 
 # sqlite 預覽網站
