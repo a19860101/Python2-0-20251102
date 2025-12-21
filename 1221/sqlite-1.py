@@ -6,7 +6,7 @@ conn = sqlite3.connect('test.db')
 cursor = conn.cursor()
 # 建立資料表
 sql_create_table = '''
-CREATE TABLE users(
+CREATE TABLE IF NOT EXISTS users(
     id INTEGER PRIMARY KEY,
     name TEXT,
     phone TEXT,
