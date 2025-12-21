@@ -13,8 +13,32 @@ def check_create_table():
     '''
     cursor.execute(sql_create_table)
 
+def create_user():
+    sql = 'INSERT INTO users(name, phone, email)VALUES(?,?,?)'
+    while True:
+        name = input('請輸入姓名')
+        if name == 'q':
+            break
+        phone = input('請輸入電話')
+        email = input('請輸入email')
+
+        data = [name, phone, email]
+        cursor.execute(sql, data)
+        conn.commit()
+
+def get_all_users():
+    sql = 'SELECT * FROM users'
+    cursor.execute(sql)
+    datas = cursor.fetchall()
+    for data in datas:
+        print(data)
+
+
+
+
 def main():
     print('test')
+
 
 
 
