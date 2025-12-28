@@ -1,5 +1,4 @@
 import sqlite3
-from random import choice
 
 conn = sqlite3.connect('test.db')
 cursor = conn.cursor()
@@ -82,6 +81,24 @@ def update_user():
         print('該ID不存在')
         return
 
+    old_id, old_name, old_phone, old_email = data
+
+    print(f'正在修改ID {user_id} 的資料')
+    new_name = input('新姓名：')
+    new_phone = input('新電話：')
+    new_email = input('新Email：')
+
+    final_name = new_name if new_name else old_name
+    final_phone = new_phone if new_phone else old_phone
+    final_email = new_email if new_email else old_email
+
+    sql = '''
+        UPDATE users SET name=?,phone=?,email=? WHERE id=?
+    '''
+    cursor.execute(sql, [final_name, final_phone, final_email, user_id])
+    conn.commit()
+
+    print('資料已修改')
 
 def main():
     check_create_table()
