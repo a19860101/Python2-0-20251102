@@ -6,7 +6,8 @@ config = {
     'user': 'root',
     'password': '88888888',
     'host': '127.0.0.1',
-    'use_pure': True
+    'use_pure': True,
+    'database': 'shop'
 }
 
 DB_NAME = 'shop'
@@ -19,8 +20,8 @@ def db_init():
     cursor = conn.cursor()
 
     # 建立資料庫
-    cursor.execute(f'CREATE DATABASE IF NOT EXISTS {DB_NAME}')
-    cursor.execute(f'USE {DB_NAME}')
+    cursor.execute(f'CREATE DATABASE IF NOT EXISTS {config['database']}')
+    cursor.execute(f'USE {config['database']}')
 
     # 建立商品資料表
     create_products_table = '''
@@ -39,7 +40,7 @@ def db_init():
 
 def create_product():
     conn = set_connection()
-    conn.database = DB_NAME
+    # conn.database = DB_NAME
     cursor = conn.cursor()
 
     name = input('商品名稱：')
@@ -55,10 +56,25 @@ def create_product():
 
     cursor.close()
     conn.close()
+def get_products():
+    conn = set_connection()
+    # cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
+    sql = 'SELECT * FROM products'
+    cursor.execute(sql)
+    products = cursor.fetchall()
+    for product in products:
+        print(product['name'])
+        print(product['price'])
+        print(product['qty'])
+        print('#' * 30)
+    cursor.close()
+    conn.close()
 
 def main():
     db_init()
-    create_product()
+    get_products()
+
 if __name__ == '__main__':
     main()
 
