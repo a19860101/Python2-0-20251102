@@ -12,22 +12,28 @@ config = {
 conn = mysql.connector.connect(**config)
 cursor = conn.cursor()
 
-name = input('姓名')
-phone = input('電話')
-email = input('Email')
+# 刪除資料
+# cursor.execute('DELETE FROM users')
+
+# 清除資料
+cursor.execute('TRUNCATE TABLE users')
+
+# name = input('姓名')
+# phone = input('電話')
+# email = input('Email')
 
 create_user_query = 'INSERT INTO users(name,phone,email)VALUES(%s,%s,%s)'
 # cursor.execute(create_user_query, ['John','0987654321','john@gmail.com'])
-cursor.execute(create_user_query, [name, phone, email])
+# cursor.execute(create_user_query, [name, phone, email])
 
-# data = [
-#     ('John1','0987654321','john@gmail.com'),
-#     ('John2','0987654321','john@gmail.com'),
-#     ('John3','0987654321','john@gmail.com'),
-#     ('John4','0987654321','john@gmail.com'),
-# ]
+data = [
+    ('John1','0987654321','john@gmail.com'),
+    ('John2','0987654321','john@gmail.com'),
+    ('John3','0987654321','john@gmail.com'),
+    ('John4','0987654321','john@gmail.com'),
+]
 
-# cursor.executemany(create_user_query, data)
+cursor.executemany(create_user_query, data)
 
 conn.commit()
 
