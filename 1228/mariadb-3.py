@@ -12,7 +12,7 @@ config = {
 conn = mysql.connector.connect(**config)
 cursor = conn.cursor()
 
-sql = 'SELECT name FROM users '
+sql = 'SELECT * FROM users'
 
 cursor.execute(sql)
 
