@@ -22,5 +22,11 @@ create_table_query = '''
 
 cursor.execute(create_table_query)
 
+create_user_query = 'INSERT INTO users(name,phone,email)VALUES(%s,%s,%s)'
+cursor.execute(create_user_query, ['John','0987654321','john@gmail.com'])
+
+conn.commit()
+
+
 cursor.close()
 conn.close()
