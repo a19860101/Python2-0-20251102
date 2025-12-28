@@ -37,9 +37,28 @@ def db_init():
     cursor.close()
     conn.close()
 
+def create_product():
+    conn = set_connection()
+    conn.database = DB_NAME
+    cursor = conn.cursor()
+
+    name = input('商品名稱：')
+    price = input('商品價格：')
+    qty = input('商品數量：')
+
+    sql = 'INSERT INTO products(name,price,qty)VALUES(%s,%s,%s)'
+    data = [name, price, qty]
+    cursor.execute(sql, data)
+    conn.commit()
+
+    print('資料新增成功!')
+
+    cursor.close()
+    conn.close()
+
 def main():
     db_init()
-
+    create_product()
 if __name__ == '__main__':
     main()
 
