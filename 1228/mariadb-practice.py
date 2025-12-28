@@ -73,7 +73,23 @@ def get_products():
 
 def main():
     db_init()
-    get_products()
+
+    while True:
+        print('--商品管理系統--')
+        print('1. 顯示所有商品')
+        print('2. 新增商品')
+        print('0. 結束程式')
+
+        choice = input('請輸入選項(0-2)：')
+
+        if choice == '1':
+            get_products()
+        elif choice == '2':
+            create_product()
+        elif choice == '0':
+            break
+        else:
+            print('無效輸入，請重新選擇')
 
 if __name__ == '__main__':
     main()
