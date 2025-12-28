@@ -64,10 +64,20 @@ def get_products():
     cursor.execute(sql)
     products = cursor.fetchall()
     for product in products:
-        print(product['name'])
-        print(product['price'])
-        print(product['qty'])
-        print('#' * 30)
+        print(f'{product['id']:<3}|{product['name']:<20}|{product['price']:<10}|{product['qty']:<5}')
+    cursor.close()
+    conn.close()
+def delete_product():
+    conn = set_connection()
+    cursor = conn.cursor()
+    get_products()
+    pid = input('請輸入要刪除的商品ID，或輸入q退出')
+    if pid == 'q':
+        return
+    sql = 'DELETE FROM products WHERE id = %s'
+    cursor.execute(sql, [pid])
+    conn.commit()
+    print('刪除成功')
     cursor.close()
     conn.close()
 
@@ -78,14 +88,17 @@ def main():
         print('--商品管理系統--')
         print('1. 顯示所有商品')
         print('2. 新增商品')
+        print('3. 刪除商品')
         print('0. 結束程式')
 
-        choice = input('請輸入選項(0-2)：')
+        choice = input('請輸入選項(0-3)：')
 
         if choice == '1':
             get_products()
         elif choice == '2':
             create_product()
+        elif choice == '3':
+            delete_product()
         elif choice == '0':
             break
         else:
