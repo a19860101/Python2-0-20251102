@@ -42,17 +42,20 @@ def create_product():
     conn = set_connection()
     # conn.database = DB_NAME
     cursor = conn.cursor()
+    print('--新增商品(在商品名稱輸入q結束新增模式)--')
+    while True:
+        name = input('商品名稱：')
+        if name == 'q':break
+        price = input('商品價格：')
+        qty = input('商品數量：')
 
-    name = input('商品名稱：')
-    price = input('商品價格：')
-    qty = input('商品數量：')
+        sql = 'INSERT INTO products(name,price,qty)VALUES(%s,%s,%s)'
+        data = [name, price, qty]
+        cursor.execute(sql, data)
+        conn.commit()
 
-    sql = 'INSERT INTO products(name,price,qty)VALUES(%s,%s,%s)'
-    data = [name, price, qty]
-    cursor.execute(sql, data)
-    conn.commit()
-
-    print('資料新增成功!')
+        print('資料新增成功!')
+        print('繼續新增，或在商品名稱輸入q結束新增模式')
 
     cursor.close()
     conn.close()
@@ -70,14 +73,14 @@ def get_products():
 def delete_product():
     conn = set_connection()
     cursor = conn.cursor()
-    get_products()
-    pid = input('請輸入要刪除的商品ID，或輸入q退出')
-    if pid == 'q':
-        return
-    sql = 'DELETE FROM products WHERE id = %s'
-    cursor.execute(sql, [pid])
-    conn.commit()
-    print('刪除成功')
+    while True:
+        get_products()
+        pid = input('請輸入要刪除的商品ID，或輸入q退出')
+        if pid == 'q': break
+        sql = 'DELETE FROM products WHERE id = %s'
+        cursor.execute(sql, [pid])
+        conn.commit()
+        print('刪除成功')
     cursor.close()
     conn.close()
 
@@ -104,6 +107,7 @@ def main():
         else:
             print('無效輸入，請重新選擇')
 
+    print('已退出商品管理系統')
 if __name__ == '__main__':
     main()
 
