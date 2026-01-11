@@ -65,10 +65,24 @@ def save_rates_to_data():
     cursor.close()
     conn.close()
 
+def show_rates():
+    conn = set_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    sql = 'SELECT * FROM rates'
+    cursor.execute(sql)
+    rates = cursor.fetchall()
+
+    for rate in rates[:30]:
+        print(rate['date'],rate['jpy'])
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
 def main():
     db_init()
-    # get_rate()
-    save_rates_to_data()
-
+    show_rates()
+    # save_rates_to_data()
 if __name__=='__main__':
     main()
