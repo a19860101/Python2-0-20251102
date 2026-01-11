@@ -1,4 +1,4 @@
-import requests,bs4,json
+import requests,bs4,json,time
 import mysql.connector
 
 config = {
@@ -114,9 +114,10 @@ def send_msg(msg):
 
 def main():
     db_init()
+    save_rates_to_data()
+    time.sleep(3)
     send_msg(show_rates())
     # show_rates()
-    # save_rates_to_data()
 if __name__=='__main__':
     main()
     # input("程式執行結束，請按 Enter 鍵離開...")
