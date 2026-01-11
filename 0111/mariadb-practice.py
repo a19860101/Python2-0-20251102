@@ -63,7 +63,7 @@ def get_products():
     conn = set_connection()
     # cursor = conn.cursor()
     cursor = conn.cursor(dictionary=True)
-    sql = 'SELECT * FROM products'
+    sql = 'SELECT * FROM products WHERE deleted_at IS NULL'
     cursor.execute(sql)
     products = cursor.fetchall()
     for product in products:
@@ -125,6 +125,16 @@ def update_product():
         conn.commit()
 
         print('資料已修改')
+def get_trash():
+    conn = set_connection()
+    cursor = conn.cursor(dictionary=True)
+    sql = 'SELECT * FROM products WHERE deleted_at IS NOT NULL'
+    cursor.execute(sql)
+    products = cursor.fetchall()
+    for product in products:
+        print(f'{product['id']:<3}|{product['name']:<20}|{product['price']:<10}|{product['qty']:<5}')
+    cursor.close()
+    conn.close()
 def main():
     db_init()
 
@@ -134,6 +144,7 @@ def main():
         print('2. 新增商品')
         print('3. 刪除商品')
         print('4. 更新商品')
+        print('5. 垃圾桶')
         print('0. 結束程式')
 
         choice = input('請輸入選項(0-3)：')
@@ -146,6 +157,8 @@ def main():
             delete_product()
         elif choice == '4':
             update_product()
+        elif choice == '5':
+            get_trash()
         elif choice == '0':
             break
         else:
