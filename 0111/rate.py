@@ -1,4 +1,4 @@
-import requests,bs4
+import requests,bs4,json
 import mysql.connector
 
 config = {
@@ -8,6 +8,12 @@ config = {
     'use_pure': True,
     'database': 'lccnet'
 }
+
+# 1. 剛剛發行的 Channel Access Token (長的那串)
+TOKEN = ""
+# 2. 你的 User ID (U開頭的那串)
+USER_ID = "U70fb069f9dfe9dd357bf725513c81514"
+
 def set_connection():
     return mysql.connector.connect(**config)
 
@@ -68,21 +74,48 @@ def save_rates_to_data():
 def show_rates():
     conn = set_connection()
     cursor = conn.cursor(dictionary=True)
-
     sql = 'SELECT * FROM rates'
     cursor.execute(sql)
     rates = cursor.fetchall()
 
+    rate_str = ''
     for rate in rates[:30]:
-        print(rate['date'],rate['jpy'])
+        # print(rate['date'],rate['jpy'])
+        rate_str += rate['date'] + ':' + rate['jpy'] + '\n'
 
     conn.commit()
     cursor.close()
     conn.close()
 
+    return rate_str
+
+def send_msg(msg):
+    # 傳送的訊息
+    # text = "嘿嘿嘿!"
+    url = "https://api.line.me/v2/bot/message/push"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + TOKEN
+    }
+    payload = {
+        "to": USER_ID,
+        "messages": [{"type": "text", "text": msg}]
+    }
+
+    try:
+        response = requests.post(url, headers=headers, data=json.dumps(payload))
+        if response.status_code == 200:
+            print("成功！！")
+        else:
+            print(f"失敗: {response.status_code}")
+            print(response.text)
+    except Exception as e:
+        print(f"錯誤: {e}")
+
 def main():
     db_init()
-    show_rates()
+    send_msg(show_rates())
+    # show_rates()
     # save_rates_to_data()
 if __name__=='__main__':
     main()

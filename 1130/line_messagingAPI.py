@@ -3,7 +3,7 @@ import json
 
 # ================= 設定區 =================
 # 1. 剛剛發行的 Channel Access Token (長的那串)
-TOKEN = ""
+TOKEN = "NXG4CXoQXRIaA92OsudN9HJcu61cp/ST9EU2qUIKFudU9/gAHcjQJaNfyHN+7SNJX/Uz683W8n/DzYvVCDG9K0hPmpUqFuF4PQ5S/1iTSrv5EQ65g91NyxibhsgznlLExke8jwaEQO1Dzpy9ZFrjpwdB04t89/1O/w1cDnyilFU="
 
 # 2. 你的 User ID (U開頭的那串)
 USER_ID = "Ua74f123f6d1d9704a41c83bcba7e8bd8"
