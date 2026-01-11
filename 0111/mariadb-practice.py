@@ -135,6 +135,39 @@ def get_trash():
         print(f'{product['id']:<3}|{product['name']:<20}|{product['price']:<10}|{product['qty']:<5}')
     cursor.close()
     conn.close()
+
+def trash_process():
+    conn = set_connection()
+    cursor = conn.cursor(dictionary=True)
+    get_trash()
+    now_utc = datetime.now()
+    product_id = input('請輸入要處理的商品id，q取消')
+    if product_id == 'q':
+        return
+    cursor.execute('SELECT * FROM products WHERE deleted_at IS NOT NULL AND id = %s', [product_id])
+    data = cursor.fetchone()
+    if data is None:
+        print('沒有此商品')
+        return
+
+    f = input('請輸入選項（0取消、1還原、2永久刪除）：')
+    sql = 'UPDATE products SET updated_at=%s,deleted_at=%s WHERE id=%s'
+
+
+    if f=='0':
+        return
+    elif f=='1':
+        cursor.execute(sql, [now_utc,None,product_id])
+        print('資料已還原')
+    elif f =='2':
+        cursor.execute('DELETE FROM products WHERE id = %s',[product_id])
+        print('資料已刪除')
+    else:
+        print('資料有誤')
+
+    conn.commit()
+    cursor.close()
+    conn.close()
 def main():
     db_init()
 
@@ -147,7 +180,7 @@ def main():
         print('5. 垃圾桶')
         print('0. 結束程式')
 
-        choice = input('請輸入選項(0-3)：')
+        choice = input('請輸入選項(0-5)：')
 
         if choice == '1':
             get_products()
@@ -158,7 +191,7 @@ def main():
         elif choice == '4':
             update_product()
         elif choice == '5':
-            get_trash()
+            trash_process()
         elif choice == '0':
             break
         else:

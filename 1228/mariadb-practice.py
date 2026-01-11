@@ -125,6 +125,8 @@ def update_product():
         conn.commit()
 
         print('資料已修改')
+        cursor.close()
+        conn.close()
 def main():
     db_init()
 
