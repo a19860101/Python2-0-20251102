@@ -24,7 +24,7 @@ def db_init():
         CREATE TABLE IF NOT EXISTS rates(
             id INT AUTO_INCREMENT PRIMARY KEY,
             date VARCHAR(100),
-            jpy VARCHAR(100),
+            jpy VARCHAR(100)
         )
     '''
     cursor.execute(create_rates_table)
@@ -45,7 +45,7 @@ def get_rate():
 
     # rates = htmlfile.select('tbody tr td:nth-of-type(4)')
     rates = htmlfile.select('tbody tr')
-    for rate in rates[:7]:
+    for rate in rates[:30]:
         # print(rate.select('td'))
         result = rate.select('td')
         # print(result[0].text)
@@ -54,9 +54,21 @@ def get_rate():
 
     return datas
 
+def save_rates_to_data():
+    conn = set_connection()
+    cursor = conn.cursor()
+    cursor.execute('TRUNCATE TABLE rates')
+    sql = 'INSERT INTO rates(date,jpy)VALUES(%s,%s)'
+    cursor.executemany(sql, get_rate())
+    print('匯率已存入資料庫')
+    conn.commit()
+    cursor.close()
+    conn.close()
+
 def main():
     db_init()
     # get_rate()
+    save_rates_to_data()
 
 if __name__=='__main__':
     main()
