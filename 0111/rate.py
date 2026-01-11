@@ -119,3 +119,6 @@ def main():
     # save_rates_to_data()
 if __name__=='__main__':
     main()
+    # input("程式執行結束，請按 Enter 鍵離開...")
+
+# pyinstaller -F --hidden-import=mysql.connector.plugins.mysql_native_password 你的檔名.py
